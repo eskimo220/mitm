@@ -1,15 +1,39 @@
 version: "3"
 services:
   mitmproxy:
-    build: .
+    build: ./mitm
     cap_add:
       - NET_ADMIN
-    devices:
-      - /dev/net/tun
-    command: ["mitmweb", "--mode", "transparent", "--web-host", "0.0.0.0"]
-    privileged: true
+    command:
+      [
+        "mitmweb",
+        "--mode",
+        "transparent",
+        "--web-host",
+        "0.0.0.0",
+        "--set",
+        "block_global=false",
+      ]
     ports:
       - "8081:8081"
+    networks:
+      mitm-net:
+        ipv4_address: 172.121.0.2
     sysctls:
       net.ipv4.ip_forward: 1
-      net.ipv6.conf.all.forwarding: 1
+  client:
+    build: ./client
+    cap_add:
+      - NET_ADMIN
+    depends_on:
+      - mitmproxy
+    networks:
+      mitm-net:
+        ipv4_address: 172.121.0.3
+
+networks:
+  mitm-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.121.0.0/16
