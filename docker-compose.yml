@@ -2,6 +2,7 @@ version: "3"
 services:
   mitmproxy:
     build: ./mitm
+    container_name: mitmproxy
     cap_add:
       - NET_ADMIN
     command:
@@ -21,6 +22,7 @@ services:
       net.ipv4.ip_forward: 1
   client:
     build: ./client
+    container_name: mitmproxy-client
     cap_add:
       - NET_ADMIN
     depends_on:
