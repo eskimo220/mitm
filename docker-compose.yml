@@ -11,14 +11,12 @@ services:
         "transparent",
         "--web-host",
         "0.0.0.0",
-        "--set",
-        "block_global=false",
       ]
     ports:
       - "8081:8081"
     networks:
       mitm-net:
-        ipv4_address: 172.121.0.2
+        ipv4_address: 10.121.0.2
     sysctls:
       net.ipv4.ip_forward: 1
   client:
@@ -29,11 +27,11 @@ services:
       - mitmproxy
     networks:
       mitm-net:
-        ipv4_address: 172.121.0.3
+        ipv4_address: 10.121.0.3
 
 networks:
   mitm-net:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.121.0.0/16
+        - subnet: 10.121.0.0/16
