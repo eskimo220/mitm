@@ -18,6 +18,7 @@ services:
     container_name: mitmproxy-client
     cap_add:
       - NET_ADMIN
+    privileged: true
     depends_on:
       - mitmproxy
     networks:
