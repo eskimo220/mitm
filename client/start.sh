@@ -1,5 +1,6 @@
 #!/bin/bash
 
+mkdir /usr/local/share/ca-certificates/extra/
 curl --proxy mitmproxy:8080 -o /usr/local/share/ca-certificates/extra/mitmproxy-ca-cert.crt http://mitm.it/cert/pem
 update-ca-certificates
 
