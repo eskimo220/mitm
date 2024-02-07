@@ -5,22 +5,14 @@ services:
     container_name: mitmproxy
     cap_add:
       - NET_ADMIN
-    command:
-      [
-        "mitmweb",
-        "--mode",
-        "transparent",
-        "--web-host",
-        "0.0.0.0",
-      ]
+    command: ["mitmweb", "--mode", "transparent", "--web-host", "0.0.0.0"]
     ports:
       - "8081:8081"
       - "8080:8080"
     networks:
       mitm-net:
         ipv4_address: 10.121.0.2
-    sysctls:
-      net.ipv4.ip_forward: 1
+
   client:
     build: ./client
     container_name: mitmproxy-client
@@ -30,7 +22,19 @@ services:
       - mitmproxy
     networks:
       mitm-net:
-        ipv4_address: 10.121.0.3
+        ipv4_address: 10.121.0.55
+
+  pandora:
+    build: ./pandora
+    container_name: pandora
+    volumes:
+      - ./data:/data
+    privileged: true
+    depends_on:
+      - mitmproxy
+    networks:
+      mitm-net:
+        ipv4_address: 10.121.0.44
 
 networks:
   mitm-net:
