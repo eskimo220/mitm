@@ -11,9 +11,7 @@ RUN apt-get update && \
 
 # 将启动脚本和证书添加到容器中，并设置权限
 COPY start.sh /start.sh
-COPY ./mitmproxy-ca-cert.crt /usr/local/share/ca-certificates/extra/
-RUN chmod +x /start.sh && \
-    update-ca-certificates
+RUN chmod +x /start.sh
 
 # 配置工作环境
 WORKDIR /app
